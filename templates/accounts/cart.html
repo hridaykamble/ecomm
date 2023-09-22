@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+.cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.cart-item {
+    display: flex;
+    margin: 20px 0;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.cart-item img {
+    max-width: 100px;
+    margin-right: 20px;
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.quantity-btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+.quantity-btn:hover {
+    background-color: #555;
+}
+
+.item-quantity {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+.remove-btn {
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+.remove-btn:hover {
+    background-color: #cc0000;
+}
+
+.coupon-section {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#coupon-code {
+    padding: 5px;
+}
+
+#apply-coupon {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+#apply-coupon:hover {
+    background-color: #0056b3;
+}
+
+.cart-summary {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#total {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+#checkout {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#checkout:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <form action="" method="POST">
+        {% include 'base/alert.html' %}
+        {% csrf_token %}
+    <div class="cart-container">
+        <h1>Shopping Cart</h1>
+        <div class="cart-item">
+            <img src="product1.jpg" alt="Product 1">
+            <div class="item-details">
+                <h2>Product 1</h2>
+                <p>Price: $10.00</p>
+                <div class="quantity">
+                    <button class="quantity-btn decrease">-</button>
+                    <span class="item-quantity">1</span>
+                    <button class="quantity-btn increase">+</button>
+                </div>
+                <a href="{% url 'remove_cart' 'cart_item.uid' %}"><button class="remove-btn">Remove</button> </a>
+            </div>
+        </div>
+        <!-- Add more cart items here -->
+        
+        <div class="coupon-section">
+            <input type="text" name="coupon" id="coupon-code" placeholder="Enter coupon code">
+           <a href="{% url 'cart'%}"> <button id="apply-coupon" type="submit">Apply Coupon</button></a>
+        </div>
+       
+        <div class="cart-summary">
+            <p>Total: <span id="total">$10.00</span></p>
+            <button id="checkout">Checkout</button>
+        </div>
+    </div>
+    {% if cart.coupon %}
+    <a href="{% url 'remove_coupon' cart.uid %}" class="btn btn-success">{{cart.coupon.coupon_code}}</a>
+    {%endif%}
+</form>
+
+    <script src="script.js"></script>
+</body>
+</html>
